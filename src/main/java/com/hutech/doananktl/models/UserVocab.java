@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "users_vocab",
@@ -28,6 +31,15 @@ public class UserVocab {
     @JoinColumn(name = "user_id")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private User user;
+
+//    @ManyToMany(cascade = CascadeType.ALL)
+//    @JoinTable(name = "vocab_cate",
+//    joinColumns = @JoinColumn(name = "cate_id", referencedColumnName = "id"),
+//    inverseJoinColumns = @JoinColumn(name="voca"))
+    private Set<Category> categories = new HashSet<>();
+
+    private Set<Example> examples = new HashSet<>();
+
 
     public Long getId() {
         return id;
