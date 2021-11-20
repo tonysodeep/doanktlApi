@@ -27,17 +27,23 @@ public class UserVocab {
     @NotBlank
     private String vocabMeaning;
 
+    @NotBlank
+    private String vocabImageUrl;
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private User user;
 
-//    @ManyToMany(cascade = CascadeType.ALL)
-//    @JoinTable(name = "vocab_cate",
-//    joinColumns = @JoinColumn(name = "cate_id", referencedColumnName = "id"),
-//    inverseJoinColumns = @JoinColumn(name="voca"))
+
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "vocab_cate",
+    joinColumns = @JoinColumn(name = "cate_id", referencedColumnName = "id"),
+    inverseJoinColumns = @JoinColumn(name="user_vocab_id",referencedColumnName = "id"))
     private Set<Category> categories = new HashSet<>();
 
+    @OneToMany(mappedBy = "vocab",cascade = CascadeType.ALL)
     private Set<Example> examples = new HashSet<>();
 
 
@@ -79,5 +85,20 @@ public class UserVocab {
 
     public void setUser(User user) {
         this.user = user;
+    }
+    public Set<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(Set<Category> categories) {
+        this.categories = categories;
+    }
+
+    public Set<Example> getExamples() {
+        return examples;
+    }
+
+    public void setExamples(Set<Example> examples) {
+        this.examples = examples;
     }
 }
